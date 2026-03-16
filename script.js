@@ -19,12 +19,17 @@ function toggleMenu() {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
+        const targetElement = document.querySelector(this.getAttribute('href'));
+        if (targetElement) {
+            const offset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
             window.scrollTo({
-                top: target.offsetTop - 80,
+                top: offsetPosition,
                 behavior: 'smooth'
             });
+
             // Close mobile menu if open
             if (window.innerWidth <= 768) {
                 document.querySelector('.nav-links').style.display = 'none';
@@ -37,7 +42,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('nav');
     if (window.scrollY > 50) {
-        nav.style.padding = '10px 0';
+        nav.style.padding = '5px 0';
         nav.style.background = 'rgba(255, 255, 255, 0.98)';
     } else {
         nav.style.padding = '0';
